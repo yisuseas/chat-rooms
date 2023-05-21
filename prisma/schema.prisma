@@ -1,0 +1,56 @@
+// Prisma schema file
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Generated from vercel database
+datasource db {
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  name     String
+  hue      Int
+  owns     Owner[]
+  memberIn Member[]
+  messages Message[]
+}
+
+model Room {
+  id       String    @id @default(uuid())
+  owner    Owner?
+  members  Member[]
+  messages Message[]
+}
+
+model Owner {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId String @unique
+}
+
+model Member {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId String
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  content   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+}
