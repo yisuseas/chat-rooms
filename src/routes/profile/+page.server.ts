@@ -43,19 +43,19 @@ export const actions = {
 			});
 		}
 
-		cookies.set(USER_ID, user.id);
+		cookies.set(USER_ID, user.id, { path: '/' });
 		locals.user = user;
 
 		return { success: true };
 	},
 	delete: async ({ locals, cookies }) => {
 		if (locals.user) {
-			prisma.user.delete({
+			await prisma.user.delete({
 				where: { id: locals.user.id }
 			});
 		}
 
-		cookies.delete(USER_ID);
+		cookies.delete(USER_ID, { path: '/' });
 		locals.user = null;
 
 		return { success: true };
