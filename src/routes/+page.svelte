@@ -4,7 +4,10 @@
 	export let data: PageData;
 </script>
 
-<h1>Chat Rooms</h1>
-{#if data.user}
-	<p>Signed in as {data.user.name}</p>
-{/if}
+<p>
+	{#if data.user}
+		Signed in as {data.user.name}
+	{:else}
+		Not signed in
+	{/if}
+</p>
