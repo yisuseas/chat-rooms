@@ -40,16 +40,3 @@
 	</button>
 	<button formaction="?/delete"> Delete </button>
 </form>
-
-<style lang="scss">
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	label {
-		display: flex;
-		flex-direction: column;
-	}
-</style>

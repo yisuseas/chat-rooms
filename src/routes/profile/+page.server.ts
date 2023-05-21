@@ -50,9 +50,18 @@ export const actions = {
 	},
 	delete: async ({ locals, cookies }) => {
 		if (locals.user) {
-			await prisma.user.delete({
-				where: { id: locals.user.id }
+			const owned = await prisma.owner.findMany({
+				where: { userId: locals.user.id }
 			});
+			// Delete all owned rooms and the user
+			await Promise.all([
+				prisma.room.deleteMany({
+					where: { id: { in: owned.map((own) => own.roomId) } }
+				}),
+				prisma.user.delete({
+					where: { id: locals.user.id }
+				})
+			]);
 		}
 
 		cookies.delete(USER_ID, { path: '/' });
