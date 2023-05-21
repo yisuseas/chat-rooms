@@ -1,13 +1,16 @@
 <nav>
-	<a href="/"> Chat Rooms </a>
-	<a href="/profile"> Profile </a>
+	<ul>
+		<li>
+			<strong>
+				<a href="/"> Chat Rooms </a>
+			</strong>
+		</li>
+	</ul>
+	<ul>
+		<li>
+			<strong>
+				<a href="/profile"> Profile </a>
+			</strong>
+		</li>
+	</ul>
 </nav>
-
-<style lang="scss">
-	nav {
-		display: flex;
-		flex-direction: row;
-		gap: 1rem;
-		justify-content: space-between;
-	}
-</style>
