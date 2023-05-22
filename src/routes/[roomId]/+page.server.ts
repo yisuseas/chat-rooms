@@ -1,6 +1,6 @@
 import prisma from '$lib/prisma.server';
-import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { error, fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ params: { roomId }, locals }) => {
 	if (!locals.user) {
@@ -39,3 +39,26 @@ export const load = (async ({ params: { roomId }, locals }) => {
 		messages: room.messages
 	};
 }) satisfies PageServerLoad;
+
+export const actions = {
+	send: async ({ request, locals, params }) => {
+		const data = await request.formData();
+		const message = data.get('message');
+		if (!message || typeof message !== 'string') {
+			return fail(400, { missing: 'message' });
+		}
+		if (!locals.user) {
+			return fail(403, { missing: 'user' });
+		}
+
+		const newMessage = await prisma.message.create({
+			data: {
+				userId: locals.user.id,
+				roomId: params.roomId,
+				content: message
+			}
+		});
+
+		return { newMessage };
+	}
+} satisfies Actions;
