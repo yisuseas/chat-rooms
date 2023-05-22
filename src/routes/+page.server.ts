@@ -27,5 +27,16 @@ export const actions = {
 		}
 
 		throw redirect(303, '/' + room.id);
+	},
+	nuke: async () => {
+		const [users, rooms] = await Promise.all([
+			prisma.user.deleteMany({}),
+			prisma.room.deleteMany({})
+		]);
+		console.log('Deleted: ');
+		console.table({
+			users: users.count,
+			rooms: rooms.count
+		});
 	}
 } satisfies Actions;
