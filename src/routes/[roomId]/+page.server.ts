@@ -1,7 +1,7 @@
 import { NEW_MEMBER, NEW_MESSAGE, REDIRECTED } from '$lib/constants';
 import prisma from '$lib/server/prisma';
 import { pusher } from '$lib/server/pusher';
-import type { NewMemberPayload, NewMessagePayload } from '$lib/server/types';
+import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 

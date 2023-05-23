@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Share from '$lib/components/Share.svelte';
 	import { NEW_MEMBER, NEW_MESSAGE, clientPusher } from '$lib/constants';
-	import type { NewMemberPayload, NewMessagePayload } from '$lib/server/types';
+	import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { PageData } from './$types';
