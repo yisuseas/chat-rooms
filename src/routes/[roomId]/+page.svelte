@@ -8,26 +8,23 @@
 <h1>
 	{data.roomId}
 </h1>
-<h2>
-	Owner: {data.owner.name}
-</h2>
-<div>
-	Members:
+<details>
+	<summary> Members </summary>
 	<ul>
-		{#each data.members as { id, name } (id)}
-			<li>
+		{#each data.members as { id, name, hue } (id)}
+			<li class:owner={id === data.owner.id} style:--hue={hue}>
 				{name}
 			</li>
 		{/each}
 	</ul>
-</div>
+</details>
 <hr />
 <main>
 	<div>
 		Messages:
 		<ul>
 			{#each data.messages as { id, content, user: sender } (id)}
-				<li>
+				<li style:--hue={sender.hue}>
 					{sender.name}: {content}
 				</li>
 			{/each}
@@ -47,3 +44,13 @@
 		<button type="submit"> Send </button>
 	</form>
 </main>
+
+<style lang="scss">
+	.owner::after {
+		content: ' (owner)';
+	}
+
+	li {
+		color: hsl(var(--hue), 100%, 50%);
+	}
+</style>
