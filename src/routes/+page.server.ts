@@ -1,5 +1,6 @@
 import prisma from '$lib/prisma.server';
-import { error, redirect } from '@sveltejs/kit';
+import { getUser } from '$lib/user.server';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = ((event) => {
@@ -9,24 +10,38 @@ export const load = ((event) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	create: async ({ locals }) => {
-		if (!locals.user) {
-			throw redirect(307, '/profile');
-		}
-		const room = await prisma.room.create({ data: {} });
-		if (!room) {
-			console.error("Couldn't make room");
-			return error(500, 'Something went wrong, please try again.');
-		}
-		const owner = await prisma.owner.create({
-			data: { userId: locals.user.id, roomId: room.id }
-		});
-		if (!owner) {
-			console.error("Couldn't make owner");
-			return error(500, 'Something went wrong, please try again.');
+	create: async ({ request, locals, cookies }) => {
+		const data = await request.formData();
+
+		const [userRes, room] = await Promise.all([
+			getUser({ data, locals, cookies }),
+			prisma.room.create({ data: {} })
+		]);
+		const { user, error } = userRes;
+		if (error) {
+			return fail(400, error);
 		}
 
+		await prisma.owner.create({
+			data: { userId: user.id, roomId: room.id }
+		});
+
 		throw redirect(303, '/' + room.id);
+	},
+	join: async ({ request, locals, cookies }) => {
+		const data = await request.formData();
+
+		const { error } = await getUser({ data, locals, cookies });
+		if (error) {
+			return fail(400, error);
+		}
+
+		const roomId = data.get('room-id');
+		if (!roomId || typeof roomId !== 'string') {
+			return fail(400, { missing: 'room-id' });
+		}
+
+		throw redirect(303, '/' + roomId);
 	},
 	nuke: async () => {
 		const [users, rooms] = await Promise.all([

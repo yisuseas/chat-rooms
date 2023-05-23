@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ params: { roomId }, locals }) => {
 	if (!locals.user) {
-		throw redirect(307, '/profile');
+		throw redirect(307, '/');
 	}
 
 	const room = await prisma.room.findUnique({
@@ -42,6 +42,10 @@ export const load = (async ({ params: { roomId }, locals }) => {
 
 export const actions = {
 	send: async ({ request, locals, params }) => {
+		if (!locals.user) {
+			throw redirect(307, '/');
+		}
+
 		const data = await request.formData();
 		const message = data.get('message');
 		if (!message || typeof message !== 'string') {
