@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Share from '$lib/components/Share.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
-<h1>
-	{data.roomId}
-</h1>
+<Share />
 <details>
 	<summary> Members </summary>
 	<ul>
