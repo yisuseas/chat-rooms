@@ -1,10 +1,11 @@
+import { REDIRECTED } from '$lib/constants';
 import prisma from '$lib/server/prisma';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async ({ params: { roomId }, locals }) => {
 	if (!locals.user) {
-		throw redirect(307, '/');
+		throw redirect(307, `/?${REDIRECTED}=${roomId}`);
 	}
 
 	const room = await prisma.room.findUnique({

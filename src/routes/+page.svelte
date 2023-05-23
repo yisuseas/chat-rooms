@@ -4,7 +4,7 @@
 
 	export let data: PageData;
 
-	let roomId = '';
+	let roomId = data.target ?? '';
 </script>
 
 <form action="?/join" method="post" use:enhance>

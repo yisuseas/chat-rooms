@@ -1,11 +1,13 @@
+import { REDIRECTED } from '$lib/constants';
 import prisma from '$lib/server/prisma';
 import { getUser } from '$lib/server/user';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load = ((event) => {
+export const load = (({ locals, url }) => {
 	return {
-		user: event.locals.user
+		user: locals.user,
+		target: url.searchParams.get(REDIRECTED)
 	};
 }) satisfies PageServerLoad;
 
