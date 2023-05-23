@@ -1,7 +1,7 @@
+import { USER_ID } from '$lib/constants';
 import type { User } from '@prisma/client';
 import type { Cookies } from '@sveltejs/kit';
-import { USER_ID } from './constants';
-import prisma from './prisma.server';
+import prisma from './prisma';
 
 interface Params {
 	data: FormData;

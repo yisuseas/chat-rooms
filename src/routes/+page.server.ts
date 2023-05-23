@@ -1,5 +1,5 @@
-import prisma from '$lib/prisma.server';
-import { getUser } from '$lib/user.server';
+import prisma from '$lib/server/prisma';
+import { getUser } from '$lib/server/user';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 

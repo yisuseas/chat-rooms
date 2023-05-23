@@ -1,5 +1,5 @@
 import { USER_ID } from '$lib/constants';
-import prisma from '$lib/prisma.server';
+import prisma from '$lib/server/prisma';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle = (async ({ event, resolve }) => {
