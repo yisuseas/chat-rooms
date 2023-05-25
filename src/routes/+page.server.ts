@@ -15,9 +15,14 @@ export const actions = {
 	create: async ({ request, locals, cookies }) => {
 		const data = await request.formData();
 
+		const title = data.get('room-title');
+		if (!title || typeof title !== 'string') {
+			return fail(400, { missing: 'room-title' });
+		}
+
 		const [userRes, room] = await Promise.all([
 			getUser({ data, locals, cookies }),
-			prisma.room.create({ data: {} })
+			prisma.room.create({ data: { title } })
 		]);
 		const { user, error } = userRes;
 		if (error) {

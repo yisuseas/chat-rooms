@@ -27,11 +27,11 @@ export const load = (async ({ params: { roomId }, locals }) => {
 	}
 
 	// Add member if needed
-	const members = room.members.map((mem) => mem.user);
+	let members = room.members.map((mem) => mem.user);
 	const userId = locals.user.id;
 	if (room.members.findIndex((mem) => mem.userId === userId) < 0) {
 		await prisma.member.create({ data: { roomId, userId } });
-		members.push(locals.user);
+		members = [...members, locals.user];
 
 		const payload = locals.user satisfies NewMemberPayload;
 		pusher.trigger(room.id, NEW_MEMBER, payload);
@@ -39,10 +39,13 @@ export const load = (async ({ params: { roomId }, locals }) => {
 
 	return {
 		user: locals.user,
-		roomId: room.id,
-		owner: room.owner.user,
-		members,
-		messages: room.messages
+		room: {
+			id: room.id,
+			title: room.title,
+			owner: room.owner.user,
+			members,
+			messages: room.messages
+		}
 	};
 }) satisfies PageServerLoad;
 

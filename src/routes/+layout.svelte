@@ -11,9 +11,9 @@
 <details>
 	<summary> Your rooms: </summary>
 	<ul>
-		{#each data.userRooms as roomId}
+		{#each data.userRooms as { id, title } (id)}
 			<li>
-				<a href="/{roomId}">{roomId}</a>
+				<a href="/{id}">{title}</a>
 			</li>
 		{/each}
 	</ul>

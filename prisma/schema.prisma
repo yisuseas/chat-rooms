@@ -24,6 +24,7 @@ model User {
 
 model Room {
   id       String    @id @default(uuid())
+  title    String
   owner    Owner?
   members  Member[]
   messages Message[]
@@ -31,26 +32,26 @@ model Room {
 
 model Owner {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }
 
 model Member {
   id     Int    @id @default(autoincrement())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }
 
 model Message {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   content   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }

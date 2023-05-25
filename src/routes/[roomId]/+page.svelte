@@ -9,20 +9,23 @@
 
 	export let data: PageData;
 
-	const roomData = writable({ members: data.members, messages: data.messages });
+	const liveData = writable({
+		members: data.room.members,
+		messages: data.room.messages
+	});
 
 	onMount(() => {
-		const channel = clientPusher.subscribe(data.roomId);
+		const channel = clientPusher.subscribe(data.room.id);
 
 		channel.bind(NEW_MEMBER, (payload: NewMemberPayload) => {
-			roomData.update((prev) => ({
+			liveData.update((prev) => ({
 				...prev,
 				members: [...prev.members, payload]
 			}));
 		});
 
 		channel.bind(NEW_MESSAGE, (payload: NewMessagePayload) => {
-			roomData.update((prev) => ({
+			liveData.update((prev) => ({
 				...prev,
 				messages: [...prev.messages, payload]
 			}));
@@ -32,12 +35,13 @@
 	});
 </script>
 
+<h1>{data.room.title}</h1>
 <Share />
 <details>
 	<summary> Members </summary>
 	<ul>
-		{#each $roomData.members as { id, name, hue } (id)}
-			<li class:owner={id === data.owner.id} style:--hue={hue}>
+		{#each $liveData.members as { id, name, hue } (id)}
+			<li class:owner={id === data.room.owner.id} style:--hue={hue}>
 				{name}
 			</li>
 		{/each}
@@ -48,7 +52,7 @@
 	<div>
 		Messages:
 		<ul>
-			{#each $roomData.messages as { id, content, user: sender } (id)}
+			{#each $liveData.messages as { id, content, user: sender } (id)}
 				<li style:--hue={sender.hue}>
 					{sender.name}: {content}
 				</li>
