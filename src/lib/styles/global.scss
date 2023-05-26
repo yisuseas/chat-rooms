@@ -3,6 +3,10 @@
 @use '@fontsource-variable/overpass-mono';
 @use '@fontsource-variable/edu-sa-beginner';
 
+:root {
+	--user-hue: 180;
+}
+
 body {
 	display: flex;
 	flex-direction: column;
