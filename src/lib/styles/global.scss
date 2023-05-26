@@ -1,6 +1,8 @@
+@use 'reset';
+
 html {
-	font-size: 20px;
-	line-height: 1;
+	font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+		'Apple Color Emoji', 'Segoe UI Emoji';
 }
 
 body {
@@ -11,13 +13,14 @@ body {
 	min-height: 100vh;
 	width: 100%;
 	overflow: hidden;
+	line-height: inherit;
 
-	background-position: center center;
+	background-size: cover;
+	background-clip: border-box;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
-	background-size: cover;
 	background-origin: border-box;
-	background-clip: border-box;
+	background-position: center center;
 	background-color: $dark-body;
 	background-image: url('../../assets/grid-dark.svg');
 	@include light-theme {
