@@ -32,3 +32,20 @@ body {
 		background-image: url('../../assets/grid-light.svg');
 	}
 }
+
+input[type='text'] {
+	border-radius: $border-radius;
+	border-width: $border-width;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	height: 48px;
+	font-family: $font-hand;
+	border-color: currentColor;
+
+	background-color: $dark-text;
+	color: $dark-secondary;
+	@include light-theme {
+		background-color: $light-body;
+		color: $light-text;
+	}
+}
