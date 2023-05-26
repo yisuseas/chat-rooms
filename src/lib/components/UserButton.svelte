@@ -19,11 +19,19 @@
 		overflow: hidden;
 		border-width: $border-width;
 		border-radius: $diameter;
+
 		background-color: $dark-secondary;
 		border-color: $primary;
+		@include light-theme {
+			background-color: $primary;
+			border-color: $light-text;
+		}
 	}
 
 	svg {
 		fill: $primary;
+		@include light-theme {
+			fill: $light-text;
+		}
 	}
 </style>
