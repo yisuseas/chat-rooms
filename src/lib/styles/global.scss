@@ -26,6 +26,7 @@ body {
 	background-attachment: scroll;
 	background-origin: border-box;
 	background-position: center center;
+
 	background-color: $dark-body;
 	background-image: url('../../assets/grid-dark.svg');
 	color: $dark-text;
@@ -73,6 +74,7 @@ input[type='text'] {
 @mixin slider-track {
 	height: 0.5rem;
 	border-radius: 99999px;
+
 	background-color: $dark-text;
 	@include light-theme {
 		background-color: $light-secondary;
@@ -98,4 +100,21 @@ input[type='range'] {
 	&::-ms-track {
 		@include slider-track;
 	}
+}
+
+%base-btn {
+	border-width: $border-width;
+	border-color: currentColor;
+	background-color: $primary;
+	height: $box-height;
+
+	color: $dark-secondary;
+	@include light-theme {
+		color: $light-text;
+	}
+}
+.btn-long {
+	@extend %base-btn;
+	border-radius: $border-radius;
+	padding-top: 0.25rem;
 }
