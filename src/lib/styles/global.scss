@@ -41,7 +41,7 @@ input[type='text'] {
 	border-width: $border-width;
 	padding-left: 1rem;
 	padding-right: 1rem;
-	height: 48px;
+	height: $box-height;
 	font-family: $font-hand;
 	border-color: currentColor;
 
@@ -50,5 +50,52 @@ input[type='text'] {
 	@include light-theme {
 		background-color: $light-body;
 		color: $light-text;
+	}
+}
+
+@mixin slider-thumb {
+	-webkit-appearance: none;
+	border-width: $border-width;
+	border-style: solid;
+	height: $box-height;
+	width: $box-height;
+	border-radius: $box-height;
+	margin-top: 0px;
+	background: $primary;
+	margin-top: calc($box-height / -2 + 10px / 2);
+	cursor: pointer;
+
+	border-color: $dark-secondary;
+	@include light-theme {
+		border-color: $light-text;
+	}
+}
+@mixin slider-track {
+	height: 0.5rem;
+	border-radius: 99999px;
+	background-color: $dark-text;
+	@include light-theme {
+		background-color: $light-secondary;
+	}
+}
+input[type='range'] {
+	height: $box-height;
+	&::-webkit-slider-thumb {
+		@include slider-thumb;
+	}
+	&::-moz-range-thumb {
+		@include slider-thumb;
+	}
+	&::-ms-thumb {
+		@include slider-thumb;
+	}
+	&::-webkit-slider-runnable-track {
+		@include slider-track;
+	}
+	&::-moz-range-track {
+		@include slider-track;
+	}
+	&::-ms-track {
+		@include slider-track;
 	}
 }

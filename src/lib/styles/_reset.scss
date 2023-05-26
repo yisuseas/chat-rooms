@@ -110,3 +110,19 @@ img {
 [hidden] {
 	display: none;
 }
+
+input[type='range'] {
+	appearance: none;
+	width: 100%;
+	background-color: transparent;
+	&:focus {
+		outline: none;
+	}
+	&::-ms-track {
+		width: 100%;
+		cursor: pointer;
+		background-color: transparent;
+		border-color: transparent;
+		color: transparent;
+	}
+}
