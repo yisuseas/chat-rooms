@@ -1,6 +1,15 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@fontsource-variable/edu-sa-beginner':
+    specifier: ^5.0.1
+    version: 5.0.1
+  '@fontsource-variable/overpass':
+    specifier: ^5.0.2
+    version: 5.0.2
+  '@fontsource-variable/overpass-mono':
+    specifier: ^5.0.1
+    version: 5.0.1
   '@prisma/client':
     specifier: 4.14.1
     version: 4.14.1(prisma@4.14.1)
@@ -297,6 +306,18 @@ packages:
     resolution: {integrity: sha512-LxcyMGxwmTh2lY9FwHPGWOHmYFCZvbrFCBZL4FzSSsxsRPuhrYUg/49/0KDfW8tnIEaEHtfmn6+NPN+1DqaNmA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource-variable/edu-sa-beginner@5.0.1:
+    resolution: {integrity: sha512-K+PO64iD6b+0pwLg5wnEbQYbKsnEWprpL+5vtaCyqADj5PQrFuby05EChGHdCwR2m+kbx8C45x4U7KMXXu5eJg==}
+    dev: false
+
+  /@fontsource-variable/overpass-mono@5.0.1:
+    resolution: {integrity: sha512-J3G8UBDq6VwJhwW7q+WglKtbNhx+NVKbvU+FyhSAaFSpyngXU+L5oBaWrxcNZWMF5wdeR6dJHiJfJ05d501oCA==}
+    dev: false
+
+  /@fontsource-variable/overpass@5.0.2:
+    resolution: {integrity: sha512-exeVF7cNXBSr2fci80DcWw9QJRZ2FsNII2tG9MF9KLl5WZCcQAJGRoVOFYYsIqEq+i5qwiir3wMTnEmjNB3ncw==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}

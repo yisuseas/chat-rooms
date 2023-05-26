@@ -1,9 +1,7 @@
 @use 'reset';
-
-html {
-	font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-		'Apple Color Emoji', 'Segoe UI Emoji';
-}
+@use '@fontsource-variable/overpass';
+@use '@fontsource-variable/overpass-mono';
+@use '@fontsource-variable/edu-sa-beginner';
 
 body {
 	display: flex;
@@ -14,6 +12,8 @@ body {
 	width: 100%;
 	overflow: hidden;
 	line-height: inherit;
+	font-family: $font-body;
+	font-weight: 400;
 
 	background-size: cover;
 	background-clip: border-box;
