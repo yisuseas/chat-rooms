@@ -1,0 +1,17 @@
+@use 'variables' as var;
+
+@mixin screen-lg {
+	@media (min-width: var.$screen-lg) {
+		@content;
+	}
+}
+
+@mixin light-theme {
+	@media (prefers-color-scheme: light) {
+		@content;
+	}
+}
+
+@function user-color($hue) {
+	@return hsl($hue, 100%, 85%);
+}

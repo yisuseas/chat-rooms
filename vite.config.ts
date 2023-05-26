@@ -9,5 +9,14 @@ const options = {
 export default defineConfig({
 	plugins: [sveltekit()],
 	server: options,
-	preview: options
+	preview: options,
+	css: {
+		preprocessorOptions: {
+			scss: {
+				additionalData:
+					"@use '$lib/styles/variables' as *;\n" +
+					"@use '$lib/styles/utils' as *;\n"
+			}
+		}
+	}
 });

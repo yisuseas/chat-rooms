@@ -73,13 +73,3 @@
 		<button type="submit"> Send </button>
 	</form>
 </main>
-
-<style lang="scss">
-	.owner::after {
-		content: ' (owner)';
-	}
-
-	li {
-		color: hsl(var(--hue), 100%, 50%);
-	}
-</style>
