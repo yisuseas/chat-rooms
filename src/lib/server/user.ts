@@ -40,7 +40,7 @@ export async function getUser({
 		return { user: null, error: { missing: 'hue' } };
 	}
 	const hue = parseInt(formHue);
-	if (!isFinite(hue) || hue < 0 || hue > 255) {
+	if (!isFinite(hue) || hue < 0 || hue > 360) {
 		return { user: null, error: { invalid: 'hue' } };
 	}
 
