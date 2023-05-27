@@ -1,17 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import UserButton from '$lib/components/UserButton.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	function updatePrimary(newHue: number | undefined) {
-		if (newHue && browser) {
-			document.body.style.setProperty('--user-hue', newHue.toString());
-		}
-	}
-	$: updatePrimary(data.user?.hue);
 
 	let name = data.user?.name ?? '';
 	let hue = data.user?.hue ?? 180;

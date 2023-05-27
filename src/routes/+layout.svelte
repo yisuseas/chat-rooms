@@ -1,9 +1,17 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import '$lib/styles/global.scss';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
+
+	function updatePrimary(newHue: number | undefined) {
+		if (newHue && browser) {
+			document.body.style.setProperty('--user-hue', newHue.toString());
+		}
+	}
+	$: updatePrimary(data.user?.hue);
 </script>
 
 <slot />
