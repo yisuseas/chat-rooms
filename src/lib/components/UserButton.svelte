@@ -19,6 +19,7 @@
 		overflow: hidden;
 		border-width: $border-width;
 		border-radius: $diameter;
+		margin: auto;
 
 		background-color: $dark-secondary;
 		border-color: $primary;
