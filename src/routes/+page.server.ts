@@ -12,6 +12,15 @@ export const load = (({ locals, url }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
+	setProfile: async ({ request, locals, cookies }) => {
+		const data = await request.formData();
+		const { error } = await getUser({ data, locals, cookies });
+		if (error) {
+			return fail(400, error);
+		}
+
+		return { success: true };
+	},
 	create: async ({ request, locals, cookies }) => {
 		const data = await request.formData();
 
