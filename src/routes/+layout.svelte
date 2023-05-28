@@ -14,11 +14,11 @@
 	$: updatePrimary(data.user?.hue);
 </script>
 
-<div class="container">
+<div class="container" class:not-home={$page.url.pathname !== '/'}>
 	<main>
 		<slot />
 	</main>
-	<div class="sidebar" class:not-home={$page.url.pathname !== '/'}>
+	<div class="sidebar">
 		<h2>
 			{#if data.userRooms.length > 0}
 				YOUR CHAT ROOMS
@@ -56,6 +56,7 @@
 	}
 
 	main {
+		width: 100%;
 		display: contents;
 		grid-column: 1;
 		grid-row: 3;
@@ -67,6 +68,12 @@
 			grid-column: 2;
 			grid-row: 1;
 		}
+
+		max-width: 26rem;
+		.not-home & {
+			height: 100%;
+			max-width: 100%;
+		}
 	}
 
 	.sidebar {
@@ -75,7 +82,7 @@
 		text-align: center;
 		flex-direction: column;
 
-		&.not-home {
+		.not-home & {
 			display: none;
 			@include screen-lg {
 				display: flex;

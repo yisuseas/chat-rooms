@@ -65,11 +65,6 @@
 </div>
 
 <style lang="scss">
-	:global(main) {
-		width: 100%;
-		max-width: 26rem;
-	}
-
 	.profile {
 		@extend %card;
 		display: grid;
@@ -102,14 +97,20 @@
 
 		form {
 			display: flex;
-			flex-direction: row;
-			gap: 1rem;
+
+			flex-direction: column;
+			gap: 0.25rem;
+			@include screen-lg {
+				flex-direction: row;
+				gap: 1rem;
+
+				button {
+					width: 7.5rem;
+				}
+			}
 		}
 		input {
 			flex-grow: 1;
-		}
-		button {
-			width: 7.5rem;
 		}
 	}
 
