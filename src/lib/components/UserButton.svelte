@@ -27,6 +27,12 @@
 			background-color: $primary;
 			border-color: $light-text;
 		}
+
+		grid-row-start: 1;
+		grid-row-end: span 1;
+		@include screen-lg {
+			grid-row-end: span 2;
+		}
 	}
 
 	svg {

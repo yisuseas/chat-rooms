@@ -14,29 +14,62 @@
 	$: updatePrimary(data.user?.hue);
 </script>
 
-<slot />
-<div class:not-home={$page.url.pathname !== '/'}>
-	<h2>
+<div class="container">
+	<main>
+		<slot />
+	</main>
+	<div class="sidebar" class:not-home={$page.url.pathname !== '/'}>
+		<h2>
+			{#if data.userRooms.length > 0}
+				YOUR CHAT ROOMS
+			{:else}
+				YOU HAVE NO ROOMS
+			{/if}
+		</h2>
 		{#if data.userRooms.length > 0}
-			YOUR CHAT ROOMS
-		{:else}
-			YOU HAVE NO ROOMS
+			<ul>
+				{#each data.userRooms as room}
+					{@const roomPath = '/' + room.id}
+					<li class:active={$page.url.pathname === roomPath}>
+						<a href={roomPath}>
+							{room.title}
+						</a>
+					</li>
+				{/each}
+			</ul>
 		{/if}
-	</h2>
-	<ul>
-		{#each data.userRooms as room}
-			{@const roomPath = '/' + room.id}
-			<li class:active={$page.url.pathname === roomPath}>
-				<a href={roomPath}>
-					{room.title}
-				</a>
-			</li>
-		{/each}
-	</ul>
+	</div>
 </div>
 
 <style lang="scss">
-	div {
+	.container {
+		display: grid;
+		width: 100%;
+		gap: 1rem;
+
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(3, min-content);
+		@include screen-lg {
+			grid-template-columns: 17rem 1fr;
+			grid-template-rows: 1fr;
+		}
+	}
+
+	main {
+		display: contents;
+		grid-column: 1;
+		grid-row: 3;
+		@include screen-lg {
+			display: flex;
+			flex-direction: column;
+			margin: auto;
+			gap: 1rem;
+			grid-column: 2;
+			grid-row: 1;
+		}
+	}
+
+	.sidebar {
 		@extend %card;
 		display: flex;
 		text-align: center;

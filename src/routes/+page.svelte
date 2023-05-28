@@ -65,14 +65,33 @@
 </div>
 
 <style lang="scss">
+	:global(main) {
+		width: 100%;
+		max-width: 26rem;
+	}
+
 	.profile {
 		@extend %card;
 		display: grid;
-		grid-template-columns: auto;
+
+		grid-template-columns: 1fr;
 		grid-template-rows: repeat(3, auto);
+		@include screen-lg {
+			grid-template-columns: auto 1fr;
+			grid-template-rows: repeat(2, auto);
+		}
 
 		input {
 			text-align: center;
+
+			@include screen-lg {
+				&[name='name'] {
+					align-self: end;
+				}
+				&[name='hue'] {
+					align-self: start;
+				}
+			}
 		}
 	}
 
