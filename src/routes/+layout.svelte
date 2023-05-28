@@ -53,6 +53,14 @@
 			grid-template-columns: 17rem 1fr;
 			grid-template-rows: 1fr;
 		}
+
+		padding: 1rem;
+		&.not-home {
+			padding: 0;
+			@include screen-lg {
+				padding: 1rem;
+			}
+		}
 	}
 
 	main {
