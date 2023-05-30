@@ -1,44 +1,47 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Share from '$lib/components/Share.svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { NEW_MEMBER, NEW_MESSAGE, clientPusher } from '$lib/constants';
 	import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
-	import { onMount } from 'svelte';
+	import type { Channel } from 'pusher-js';
+	import { onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	const liveData = writable({
+	$: liveData = writable({
 		members: data.room.members,
 		messages: data.room.messages
 	});
 
-	onMount(() => {
-		const channel = clientPusher.subscribe(data.room.id);
+	let channel: Channel | null = null;
 
-		channel.bind(NEW_MEMBER, (payload: NewMemberPayload) => {
-			liveData.update((prev) => ({
-				...prev,
-				members: [...prev.members, payload]
-			}));
-		});
+	afterNavigate(() => {
+		channel = clientPusher
+			.subscribe(data.room.id)
+			.bind(NEW_MEMBER, (payload: NewMemberPayload) => {
+				liveData.update((prev) => ({
+					...prev,
+					members: [...prev.members, payload]
+				}));
+			})
+			.bind(NEW_MESSAGE, (payload: NewMessagePayload) => {
+				liveData.update((prev) => ({
+					...prev,
+					messages: [...prev.messages, payload]
+				}));
+			});
+	});
 
-		channel.bind(NEW_MESSAGE, (payload: NewMessagePayload) => {
-			liveData.update((prev) => ({
-				...prev,
-				messages: [...prev.messages, payload]
-			}));
-		});
-
-		return () => channel.unsubscribe();
+	onDestroy(() => {
+		channel?.unsubscribe();
 	});
 </script>
 
 <h1>{data.room.title}</h1>
-<Share />
-<details>
-	<summary> Members </summary>
+<div>
+	<span> Members </span>
 	<ul>
 		{#each $liveData.members as { id, name, hue } (id)}
 			<li class:owner={id === data.room.owner.id} style:--hue={hue}>
@@ -46,9 +49,9 @@
 			</li>
 		{/each}
 	</ul>
-</details>
+</div>
 <hr />
-<main>
+<div>
 	<div>
 		Messages:
 		<ul>
@@ -72,4 +75,4 @@
 		</label>
 		<button type="submit"> Send </button>
 	</form>
-</main>
+</div>
