@@ -45,7 +45,6 @@
 	.container {
 		display: grid;
 		width: 100%;
-		gap: 1rem;
 
 		grid-template-columns: 1fr;
 		grid-template-rows: repeat(3, min-content);
@@ -54,10 +53,13 @@
 			grid-template-rows: 1fr;
 		}
 
+		gap: 1rem;
 		padding: 1rem;
 		&.not-home {
+			gap: 0;
 			padding: 0;
 			@include screen-lg {
+				gap: 1rem;
 				padding: 1rem;
 			}
 		}
@@ -65,16 +67,17 @@
 
 	main {
 		width: 100%;
+
 		display: contents;
 		grid-column: 1;
 		grid-row: 3;
 		@include screen-lg {
 			display: flex;
+			grid-column: 2;
+			grid-row: 1;
 			flex-direction: column;
 			margin: auto;
 			gap: 1rem;
-			grid-column: 2;
-			grid-row: 1;
 		}
 
 		max-width: 26rem;
