@@ -1,7 +1,7 @@
-import { NEW_MEMBER, NEW_MESSAGE, REDIRECTED } from '$lib/constants';
+import { NEW_MESSAGE, REDIRECTED } from '$lib/constants';
 import prisma from '$lib/server/prisma';
 import { pusher } from '$lib/server/pusher';
-import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
+import type { NewMessagePayload } from '$lib/types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -26,24 +26,13 @@ export const load = (async ({ params: { roomId }, locals }) => {
 		throw error(500, 'Abandoned room');
 	}
 
-	// Add member if needed
-	let members = room.members.map((mem) => mem.user);
-	const userId = locals.user.id;
-	if (room.members.findIndex((mem) => mem.userId === userId) < 0) {
-		await prisma.member.create({ data: { roomId, userId } });
-		members = [...members, locals.user];
-
-		const payload = locals.user satisfies NewMemberPayload;
-		pusher.trigger(room.id, NEW_MEMBER, payload);
-	}
-
 	return {
 		user: locals.user,
 		room: {
 			id: room.id,
 			title: room.title,
 			owner: room.owner.user,
-			members,
+			members: room.members.map((mem) => mem.user),
 			messages: room.messages
 		}
 	};
