@@ -81,7 +81,7 @@ export const actions = {
 		const payload = member.user satisfies NewMemberPayload;
 		pusher.trigger(room.id, NEW_MEMBER, payload);
 
-		throw redirect(303, '/' + roomId);
+		throw redirect(303, '/' + room.id);
 	},
 	nuke: async () => {
 		const [users, rooms] = await Promise.all([
