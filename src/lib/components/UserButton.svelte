@@ -1,4 +1,9 @@
-<button type="submit">
+<script lang="ts">
+	export let disabled = false;
+	export let loading = false;
+</script>
+
+<button class:loading type="submit" {disabled}>
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="1 1 22 22"

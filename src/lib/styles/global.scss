@@ -54,6 +54,13 @@ input[type='text'] {
 	&:focus-visible {
 		outline: none;
 	}
+
+	&.missing {
+		border-color: goldenrod;
+	}
+	&.invalid {
+		border-color: firebrick;
+	}
 }
 
 @mixin slider-thumb {
@@ -126,4 +133,23 @@ input[type='range'] {
 	border-radius: 999px;
 	display: grid;
 	place-items: center;
+}
+
+button[type='submit'] {
+	&[disabled] {
+		opacity: $lowest-opacity;
+	}
+	&.loading {
+		animation: pulse 1.5s ease-in-out infinite;
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: $lowest-opacity;
+	}
 }

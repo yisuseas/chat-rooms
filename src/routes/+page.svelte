@@ -1,20 +1,25 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import UserButton from '$lib/components/UserButton.svelte';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
+	export let form: ActionData;
 
 	let name = data.user?.name ?? '';
 	let hue = data.user?.hue ?? 180;
 
 	let roomId = data.target ?? '';
 	let roomTitle = '';
+
+	let loading = false;
 </script>
 
 <form class="profile" action="?/setProfile" method="post" use:enhance>
-	<UserButton />
+	<UserButton {loading} />
 	<input
+		class:missing={form?.missing === 'name'}
+		class:invalid={form?.invalid === 'name'}
 		type="text"
 		name="name"
 		minlength="3"
@@ -36,9 +41,11 @@
 </form>
 <div class="room-actions">
 	<form action="?/join" method="post" use:enhance>
-		<input type="text" name="name" hidden required bind:value={name} />
+		<input type="text" name="name" hidden bind:value={name} />
 		<input type="number" name="hue" hidden required bind:value={hue} />
 		<input
+			class:missing={form?.missing === 'room-id'}
+			class:invalid={form?.invalid === 'room-id'}
 			type="text"
 			name="room-id"
 			autocomplete="off"
@@ -46,13 +53,22 @@
 			required
 			bind:value={roomId}
 		/>
-		<button class="btn-long" type="submit"> Join </button>
+		<button
+			class="btn-long"
+			class:loading
+			type="submit"
+			disabled={roomId.length !== 36}
+		>
+			Join
+		</button>
 	</form>
 	<div class="divider">OR</div>
 	<form action="?/create" method="post" use:enhance>
-		<input type="text" name="name" hidden required bind:value={name} />
+		<input type="text" name="name" hidden bind:value={name} />
 		<input type="number" name="hue" hidden required bind:value={hue} />
 		<input
+			class:missing={form?.missing === 'room-title'}
+			class:invalid={form?.invalid === 'room-title'}
 			type="text"
 			name="room-title"
 			autocomplete="off"
@@ -60,7 +76,9 @@
 			required
 			bind:value={roomTitle}
 		/>
-		<button class="btn-long" type="submit"> Create </button>
+		<button class="btn-long" class:loading type="submit" disabled={!roomTitle}>
+			Create
+		</button>
 	</form>
 </div>
 
