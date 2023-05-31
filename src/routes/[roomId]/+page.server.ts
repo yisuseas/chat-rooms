@@ -49,9 +49,6 @@ export const actions = {
 		if (!message || typeof message !== 'string') {
 			return fail(400, { missing: 'message' });
 		}
-		if (!locals.user) {
-			return fail(403, { missing: 'user' });
-		}
 
 		const newMessage = await prisma.message.create({
 			data: {
