@@ -14,6 +14,11 @@
 	$: updatePrimary(data.user?.hue);
 </script>
 
+<svelte:head>
+	<title>Chat Rooms</title>
+	<meta name="description" content="Chat with your friends" />
+</svelte:head>
+
 <div class="container" class:not-home={$page.url.pathname !== '/'}>
 	<main>
 		<slot />
