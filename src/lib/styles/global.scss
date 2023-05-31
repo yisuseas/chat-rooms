@@ -34,7 +34,8 @@ body {
 	}
 }
 
-input[type='text'] {
+input[type='text'],
+.faux-input {
 	border-radius: $border-radius;
 	border-width: $border-width;
 	padding-left: 1rem;
@@ -140,7 +141,7 @@ button[type='submit'] {
 		opacity: $lowest-opacity;
 	}
 	&.loading {
-		animation: pulse 1.5s ease-in-out infinite;
+		animation: $anim-pulse;
 	}
 }
 

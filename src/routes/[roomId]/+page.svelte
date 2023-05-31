@@ -8,9 +8,10 @@
 	import type { Channel } from 'pusher-js';
 	import { onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData, SubmitFunction } from './$types';
 
 	export let data: PageData;
+	export let form: ActionData;
 
 	let feed: HTMLDivElement;
 
@@ -31,6 +32,9 @@
 				}));
 			})
 			.bind(NEW_MESSAGE, (payload: NewMessagePayload) => {
+				if (payload.user.id === data.user.id) {
+					sending = null;
+				}
 				liveData.update((prev) => ({
 					...prev,
 					messages: [...prev.messages, payload]
@@ -49,6 +53,22 @@
 			console.log('copied: ', data.room.id);
 		});
 	}
+
+	let message = '';
+
+	let sending: NewMessagePayload | null = null;
+
+	const handleSubmit = (() => {
+		sending = {
+			id: -1,
+			createdAt: new Date(),
+			roomId: data.room.id,
+			content: message,
+			userId: data.user.id,
+			user: data.user
+		};
+		message = '';
+	}) satisfies SubmitFunction;
 </script>
 
 <div class="window">
@@ -68,18 +88,40 @@
 			{#each $liveData.messages as msg (msg.id)}
 				<Whale {msg} own={msg.user.id === data.user.id} />
 			{/each}
+			{#if sending}
+				<Whale msg={sending} own={true} sending={true} />
+			{/if}
 		</ul>
 	</div>
-	<form class="edge bottom" action="?/send" method="post" use:enhance>
+	<form
+		class="edge bottom"
+		action="?/send"
+		method="post"
+		use:enhance={handleSubmit}
+	>
 		<input
 			type="text"
 			name="message"
 			id="message"
-			autocomplete="off"
-			placeholder="Write something..."
-			required
+			hidden
+			bind:value={message}
 		/>
-		<button class="btn-circle" type="submit">
+		<div
+			class="faux-input"
+			class:empty={!message}
+			class:missing={form?.missing === 'message'}
+			role="textbox"
+			spellcheck="true"
+			title="Write something..."
+			contenteditable="true"
+			bind:textContent={message}
+		/>
+		<button
+			class="btn-circle"
+			class:loading={sending !== null}
+			type="submit"
+			disabled={!message}
+		>
 			<Icon name="send" />
 		</button>
 	</form>
@@ -108,8 +150,9 @@
 	}
 
 	.edge {
-		display: flex;
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: $box-height 1fr $box-height;
+		align-items: end;
 		padding: 1rem;
 		gap: 1rem;
 
@@ -130,7 +173,7 @@
 	.title {
 		font-family: $font-display;
 		text-transform: uppercase;
-		flex-grow: 1;
+		height: $box-height;
 	}
 
 	.feed {
@@ -145,7 +188,30 @@
 		gap: 1rem;
 	}
 
-	input {
-		flex-grow: 1;
+	// Make the content be 20px(1rem) tall
+	$pd: calc(($box-height - 6px - 20px) / 2);
+
+	.faux-input {
+		grid-column-end: span 2;
+		position: relative;
+		user-select: text;
+		white-space: pre-wrap;
+		word-break: break-word;
+		height: fit-content;
+		min-height: $box-height;
+		padding-top: $pd;
+		padding-bottom: $pd;
+	}
+
+	.empty::before {
+		content: 'Write something...';
+		cursor: text;
+		font-family: inherit;
+		user-select: none;
+		opacity: 0.5;
+		position: absolute;
+		height: 1rem;
+		top: $pd;
+		left: 1rem;
 	}
 </style>

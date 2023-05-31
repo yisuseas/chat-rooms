@@ -3,9 +3,10 @@
 
 	export let msg: Message & { user: User };
 	export let own: boolean;
+	export let sending = false;
 </script>
 
-<li class:own style:--user-hue={msg.user.hue}>
+<li class:own class:sending style:--user-hue={msg.user.hue}>
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1">
 		<path d="M 0 1 L {own ? '0' : '1'} 0 L 1 1 H 0" />
 	</svg>
@@ -25,6 +26,10 @@
 			@include light-theme {
 				--whale-color: #{$light-secondary};
 			}
+		}
+
+		&.sending {
+			animation: $anim-pulse;
 		}
 	}
 
