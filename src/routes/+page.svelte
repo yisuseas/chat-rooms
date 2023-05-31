@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import UserButton from '$lib/components/UserButton.svelte';
-	import type { ActionData, PageData } from './$types';
+	import type { ActionData, PageData, SubmitFunction } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -13,10 +13,24 @@
 	let roomTitle = '';
 
 	let loading = false;
+
+	const handleSubmit = (() => {
+		loading = true;
+
+		return async ({ result }) => {
+			await applyAction(result);
+			loading = false;
+		};
+	}) satisfies SubmitFunction;
 </script>
 
-<form class="profile" action="?/setProfile" method="post" use:enhance>
-	<UserButton {loading} />
+<form
+	class="profile"
+	action="?/setProfile"
+	method="post"
+	use:enhance={handleSubmit}
+>
+	<UserButton {loading} disabled={name.length < 3 || name.length > 25} />
 	<input
 		class:missing={form?.missing === 'name'}
 		class:invalid={form?.invalid === 'name'}
@@ -40,7 +54,7 @@
 	/>
 </form>
 <div class="room-actions">
-	<form action="?/join" method="post" use:enhance>
+	<form action="?/join" method="post" use:enhance={handleSubmit}>
 		<input type="text" name="name" hidden bind:value={name} />
 		<input type="number" name="hue" hidden required bind:value={hue} />
 		<input
@@ -63,7 +77,7 @@
 		</button>
 	</form>
 	<div class="divider">OR</div>
-	<form action="?/create" method="post" use:enhance>
+	<form action="?/create" method="post" use:enhance={handleSubmit}>
 		<input type="text" name="name" hidden bind:value={name} />
 		<input type="number" name="hue" hidden required bind:value={hue} />
 		<input
