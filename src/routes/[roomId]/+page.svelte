@@ -69,7 +69,26 @@
 		};
 		message = '';
 	}) satisfies SubmitFunction;
+
+	let ctrl = false;
+	let submitBtn: HTMLButtonElement;
+
+	function handleKeyDown({ key }: KeyboardEvent) {
+		if (key === 'Control') {
+			ctrl = true;
+		} else if (ctrl && key === 'Enter') {
+			submitBtn.click();
+		}
+	}
+
+	function handleKeyUp({ key }: KeyboardEvent) {
+		if (key === 'Control') {
+			ctrl = false;
+		}
+	}
 </script>
+
+<svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
 <div class="window">
 	<div class="edge top">
@@ -121,6 +140,7 @@
 			class:loading={sending !== null}
 			type="submit"
 			disabled={!message}
+			bind:this={submitBtn}
 		>
 			<Icon name="send" />
 		</button>
