@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { afterNavigate } from '$app/navigation';
 	import Icon from '$lib/components/Icon.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import Whale from '$lib/components/Whale.svelte';
 	import { NEW_MEMBER, NEW_MESSAGE, clientPusher } from '$lib/constants';
 	import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
@@ -86,6 +87,14 @@
 			ctrl = false;
 		}
 	}
+
+	let showModal = false;
+	function openModal() {
+		showModal = true;
+	}
+	function hideModal() {
+		showModal = false;
+	}
 </script>
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
@@ -98,7 +107,7 @@
 		<button class="title" on:click={copyRoomId}>
 			{data.room.title}
 		</button>
-		<button class="btn-circle">
+		<button class="btn-circle" on:click={openModal}>
 			<Icon name="more" />
 		</button>
 	</div>
@@ -145,6 +154,13 @@
 			<Icon name="send" />
 		</button>
 	</form>
+
+	<Modal
+		open={showModal}
+		members={data.room.members}
+		owner={data.room.owner}
+		on:click={hideModal}
+	/>
 </div>
 
 <style lang="scss">
@@ -153,6 +169,7 @@
 		flex-direction: column;
 		height: 100%;
 		overflow: hidden;
+		position: relative;
 
 		min-height: 100vh;
 		max-height: 100vh;
