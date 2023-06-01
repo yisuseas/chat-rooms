@@ -7,5 +7,6 @@ Simple chat room app.
 - Vercel
 - Vercel Postgres
 - Prisma
+- Pusher
 - SvelteKit
 - Sass
