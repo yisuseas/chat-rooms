@@ -51,11 +51,6 @@ input[type='text'],
 		color: $light-text;
 	}
 
-	&:focus,
-	&:focus-visible {
-		outline: none;
-	}
-
 	&.missing {
 		border-color: goldenrod;
 	}
@@ -142,6 +137,31 @@ button[type='submit'] {
 	}
 	&.loading {
 		animation: $anim-pulse;
+	}
+}
+
+a,
+button,
+input[type='text'],
+.faux-input {
+	&:focus,
+	&:focus-visible {
+		@include ring;
+	}
+}
+
+input[type='range'] {
+	&:focus,
+	&:focus-visible {
+		&::-webkit-slider-thumb {
+			@include ring;
+		}
+		&::-moz-range-thumb {
+			@include ring;
+		}
+		&::-ms-thumb {
+			@include ring;
+		}
 	}
 }
 
