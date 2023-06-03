@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { page } from '$app/stores';
 	import RoomList from '$lib/components/RoomList.svelte';
 	import '$lib/styles/global.scss';
 	import type { LayoutData } from './$types';
@@ -20,7 +19,7 @@
 	<meta name="description" content="Chat with your friends" />
 </svelte:head>
 
-<div class="container" class:not-home={$page.url.pathname !== '/'}>
+<div class="container">
 	<div class="sidebar">
 		<RoomList rooms={data.userRooms} />
 	</div>
@@ -33,6 +32,7 @@
 	.container {
 		display: grid;
 		width: 100%;
+		gap: 1rem;
 
 		grid-template-columns: 1fr;
 		grid-template-rows: 1fr;
@@ -40,28 +40,20 @@
 			grid-template-columns: 17rem 1fr;
 			grid-template-rows: 1fr;
 		}
-
-		gap: 1rem;
-		padding: 1rem;
-		&.not-home {
-			gap: 0;
-			padding: 0;
-			@include screen-lg {
-				gap: 1rem;
-				padding: 1rem;
-			}
-		}
 	}
 
 	.sidebar {
 		display: none;
 		@include screen-lg {
 			display: block;
+			padding: 1rem {
+				right: 0rem;
+			}
 		}
 	}
 
 	main {
-		display: block;
+		display: grid;
 		overflow: hidden;
 	}
 </style>

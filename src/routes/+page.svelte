@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import RoomList from '$lib/components/RoomList.svelte';
 	import UserButton from '$lib/components/UserButton.svelte';
+	import { home } from '$lib/transition';
 	import type { ActionData, PageData, SubmitFunction } from './$types';
 
 	export let data: PageData;
@@ -25,7 +26,7 @@
 	}) satisfies SubmitFunction;
 </script>
 
-<div class="column">
+<div class="column" transition:home>
 	<form
 		class="profile"
 		action="?/setProfile"
@@ -117,9 +118,13 @@
 		height: 100%;
 		margin-left: auto;
 		margin-right: auto;
+		grid-column: 1;
+		grid-row: 1;
+		padding: 1rem;
 
 		max-width: 100%;
 		@include screen-lg {
+			padding-left: 0rem;
 			max-width: 35rem;
 		}
 	}
