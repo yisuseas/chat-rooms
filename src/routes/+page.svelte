@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import RoomList from '$lib/components/RoomList.svelte';
 	import UserButton from '$lib/components/UserButton.svelte';
 	import type { ActionData, PageData, SubmitFunction } from './$types';
 
@@ -24,79 +25,105 @@
 	}) satisfies SubmitFunction;
 </script>
 
-<form
-	class="profile"
-	action="?/setProfile"
-	method="post"
-	use:enhance={handleSubmit}
->
-	<UserButton {loading} disabled={name.length < 3 || name.length > 25} />
-	<input
-		class:missing={form?.missing === 'name'}
-		class:invalid={form?.invalid === 'name'}
-		type="text"
-		name="name"
-		minlength="3"
-		maxlength="25"
-		autocomplete="off"
-		placeholder="Username"
-		required
-		bind:value={name}
-	/>
-	<input
-		type="range"
-		name="hue"
-		min="0"
-		max="360"
-		step="1"
-		bind:value={hue}
-		style:--temp-hue={hue}
-	/>
-</form>
-<div class="room-actions">
-	<form action="?/join" method="post" use:enhance={handleSubmit}>
-		<input type="text" name="name" hidden bind:value={name} />
-		<input type="number" name="hue" hidden required bind:value={hue} />
+<div class="column">
+	<form
+		class="profile"
+		action="?/setProfile"
+		method="post"
+		use:enhance={handleSubmit}
+	>
+		<UserButton {loading} disabled={name.length < 3 || name.length > 25} />
 		<input
-			class:missing={form?.missing === 'room-id'}
-			class:invalid={form?.invalid === 'room-id'}
+			class:missing={form?.missing === 'name'}
+			class:invalid={form?.invalid === 'name'}
 			type="text"
-			name="room-id"
+			name="name"
+			minlength="3"
+			maxlength="25"
 			autocomplete="off"
-			placeholder="Room Id"
+			placeholder="Username"
 			required
-			bind:value={roomId}
+			bind:value={name}
 		/>
-		<button
-			class="btn-long"
-			class:loading
-			type="submit"
-			disabled={roomId.length !== 36}
-		>
-			Join
-		</button>
-	</form>
-	<div class="divider">OR</div>
-	<form action="?/create" method="post" use:enhance={handleSubmit}>
-		<input type="text" name="name" hidden bind:value={name} />
-		<input type="number" name="hue" hidden required bind:value={hue} />
 		<input
-			class:missing={form?.missing === 'room-title'}
-			class:invalid={form?.invalid === 'room-title'}
-			type="text"
-			name="room-title"
-			autocomplete="off"
-			placeholder="Room Title"
-			required
-			bind:value={roomTitle}
+			type="range"
+			name="hue"
+			min="0"
+			max="360"
+			step="1"
+			bind:value={hue}
+			style:--temp-hue={hue}
 		/>
-		<button class="btn-long" class:loading type="submit" disabled={!roomTitle}>
-			Create
-		</button>
 	</form>
+	<div class="room-actions">
+		<form action="?/join" method="post" use:enhance={handleSubmit}>
+			<input type="text" name="name" hidden bind:value={name} />
+			<input type="number" name="hue" hidden required bind:value={hue} />
+			<input
+				class:missing={form?.missing === 'room-id'}
+				class:invalid={form?.invalid === 'room-id'}
+				type="text"
+				name="room-id"
+				autocomplete="off"
+				placeholder="Room Id"
+				required
+				bind:value={roomId}
+			/>
+			<button
+				class="btn-long"
+				class:loading
+				type="submit"
+				disabled={roomId.length !== 36}
+			>
+				Join
+			</button>
+		</form>
+		<div class="divider">OR</div>
+		<form action="?/create" method="post" use:enhance={handleSubmit}>
+			<input type="text" name="name" hidden bind:value={name} />
+			<input type="number" name="hue" hidden required bind:value={hue} />
+			<input
+				class:missing={form?.missing === 'room-title'}
+				class:invalid={form?.invalid === 'room-title'}
+				type="text"
+				name="room-title"
+				autocomplete="off"
+				placeholder="Room Title"
+				required
+				bind:value={roomTitle}
+			/>
+			<button
+				class="btn-long"
+				class:loading
+				type="submit"
+				disabled={!roomTitle}
+			>
+				Create
+			</button>
+		</form>
+	</div>
+	<div class="rooms">
+		<RoomList rooms={data.userRooms} />
+	</div>
 </div>
 
 <style lang="scss">
+	.column {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 1rem;
+		width: 100%;
+		height: 100%;
+		margin-left: auto;
+		margin-right: auto;
+
+		max-width: 100%;
+		@include screen-lg {
+			max-width: 35rem;
+		}
+	}
+
 	.profile {
 		@extend %card;
 		display: grid;
@@ -161,6 +188,15 @@
 			border-radius: $border-radius;
 			background-color: currentColor;
 			width: 100%;
+		}
+	}
+
+	.rooms {
+		flex-grow: 1;
+
+		display: block;
+		@include screen-lg {
+			display: none;
 		}
 	}
 </style>
