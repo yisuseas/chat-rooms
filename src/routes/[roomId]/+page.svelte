@@ -5,6 +5,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Whale from '$lib/components/Whale.svelte';
 	import { NEW_MEMBER, NEW_MESSAGE, clientPusher } from '$lib/constants';
+	import { room } from '$lib/transition';
 	import type { NewMemberPayload, NewMessagePayload } from '$lib/types';
 	import type { Channel } from 'pusher-js';
 	import { onDestroy } from 'svelte';
@@ -99,7 +100,7 @@
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
 
-<div class="window">
+<div class="window" transition:room>
 	<div class="edge top">
 		<a class="btn-circle" href="/">
 			<Icon name="home" />
@@ -170,6 +171,8 @@
 		height: 100%;
 		overflow: hidden;
 		position: relative;
+		grid-column: 1;
+		grid-row: 1;
 
 		min-height: 100vh;
 		max-height: 100vh;
@@ -177,6 +180,9 @@
 		@include screen-lg {
 			min-height: 0;
 			max-height: calc(100vh - 2rem);
+			margin: 1rem {
+				left: 0rem;
+			}
 			border-radius: $border-radius;
 		}
 
